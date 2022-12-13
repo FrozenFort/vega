@@ -279,7 +279,7 @@ impl<'de, T: Deserialize + ?Sized + 'static> serde::de::Deserialize<'de> for Box
 }
 
 pub trait SerFunc<Args: std::marker::Tuple>:
-    Fn<Args: std::marker::Tuple>
+    Fn<Args, Args: std::marker::Tuple>
     + Send
     + Sync
     + Clone
