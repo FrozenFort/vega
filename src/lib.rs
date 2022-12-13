@@ -10,6 +10,7 @@
     binary_heap_into_iter_sorted
 )]
 #![feature(tuple_trait)]
+#![feature(associated_type_bounds)]
 #![allow(dead_code, where_clauses_object_safety, deprecated)]
 #![allow(clippy::single_component_path_imports)]
 
