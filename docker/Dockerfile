@@ -14,9 +14,11 @@ ENV tempPkgs='\
     '
 ENV PATH="/root/.cargo/bin:$PATH"
 ARG RUST_VERSION
+RUN sed -i 's/archive.ubuntu.com/mirrors.tencent.com/g' /etc/apt/sources.list; \
+    sed -i 's/security.ubuntu.com/mirrors.tencent.com/g' /etc/apt/sources.list
 RUN set -e; \
     apt-get update -yq; \
-    apt-get install -yq --no-install-recommends $tempPkgs; 
+    DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends $tempPkgs; 
 # Install and set up rustup
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain $RUST_VERSION --no-modify-path; 
 WORKDIR /home
@@ -41,7 +43,7 @@ WORKDIR /home/release
 RUN set -e; \
     # Install requirements
     apt-get update -yq; \
-    apt-get install --no-install-recommends -yq \
+    DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -yq \
     locales iputils-ping capnproto openssh-server libssl-dev; \
     # Locales
     locale-gen en_US.UTF-8; \

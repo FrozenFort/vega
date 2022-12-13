@@ -2,7 +2,7 @@
 name = "vega"
 version = "0.1.0"
 authors = ["raja <rajasekar3eg@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 build = "build.rs"
 
@@ -46,7 +46,7 @@ bincode = "1.2.1"
 capnp = "0.12.1"
 capnp-futures = "0.12.0"
 serde = { version = "1.0.106", features = ["rc"] }
-serde_closure = "^0.2.9"
+serde_closure = "0.3.3"
 serde_derive = "1.0.106"
 uriparse = "0.6.1"
 
@@ -66,5 +66,5 @@ capnpc = "0.12.1"
 [dev-dependencies]
 async-std = { version = "1.5.0", features = ["attributes"] } 
 chrono = "0.4.11"
-parquet = "0.15.1"
+parquet = "28.0.0"
 tempfile = "3"

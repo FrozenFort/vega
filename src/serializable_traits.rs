@@ -234,7 +234,7 @@ impl<T: fmt::Display + ?Sized> fmt::Display for Box<T> {
 
 impl<A, F: ?Sized> ops::FnOnce<A> for Box<F>
 where
-    F: FnOnce<A>,
+    F: FnOnce<A>, A: std::marker::Tuple
 {
     type Output = F::Output;
     extern "rust-call" fn call_once(self, args: A) -> Self::Output {
@@ -244,7 +244,7 @@ where
 
 impl<A, F: ?Sized> ops::FnMut<A> for Box<F>
 where
-    F: FnMut<A>,
+    F: FnMut<A>, A: std::marker::Tuple
 {
     extern "rust-call" fn call_mut(&mut self, args: A) -> Self::Output {
         self.0.call_mut(args)
@@ -253,7 +253,7 @@ where
 
 impl<A, F: ?Sized> ops::Fn<A> for Box<F>
 where
-    F: Func<A>,
+    F: Func<A>, A: std::marker::Tuple
 {
     extern "rust-call" fn call(&self, args: A) -> Self::Output {
         self.0.call(args)
@@ -278,8 +278,8 @@ impl<'de, T: Deserialize + ?Sized + 'static> serde::de::Deserialize<'de> for Box
     }
 }
 
-pub trait SerFunc<Args>:
-    Fn<Args>
+pub trait SerFunc<Args: std::marker::Tuple>:
+    Fn<Args: std::marker::Tuple>
     + Send
     + Sync
     + Clone
@@ -300,17 +300,17 @@ impl<Args, T> SerFunc<Args> for T where
         + serde::de::DeserializeOwned
         + 'static
         + Serialize
-        + Deserialize
+        + Deserialize, Args: std::marker::Tuple
 {
 }
 
-pub trait Func<Args>:
+pub trait Func<Args: std::marker::Tuple>:
     ops::Fn<Args> + Serialize + Deserialize + Send + Sync + 'static + dyn_clone::DynClone
 {
 }
 
 impl<T: ?Sized, Args> Func<Args> for T where
-    T: ops::Fn<Args> + Serialize + Deserialize + Send + Sync + 'static + dyn_clone::DynClone
+    T: ops::Fn<Args> + Serialize + Deserialize + Send + Sync + 'static + dyn_clone::DynClone, Args: std::marker::Tuple
 {
 }
 
